@@ -20,5 +20,20 @@ namespace Prague_Park_v2.Models
         {
             LicensePlate = licensePlate;
         }
+
+        public string GetInfo()
+        {
+            return $"License Plate: {LicensePlate}, Size: {Size}, Arrival Time: {ArrivalTime}, Price Per Hour: {PricePerHour}";
+        }
+
+        public void CheckoutVehicle(DateTime departureTime)
+        {
+            TimeSpan duration = departureTime - ArrivalTime;
+            double totalHours = Math.Ceiling(duration.TotalHours);
+            double totalPrice = totalHours * PricePerHour;
+            Console.WriteLine($"Vehicle with License Plate: {LicensePlate} is checking out.");
+            Console.WriteLine($"Total Duration: {totalHours} hours");
+            Console.WriteLine($"Total Price: {totalPrice} currency units");
+        }
     }
 }

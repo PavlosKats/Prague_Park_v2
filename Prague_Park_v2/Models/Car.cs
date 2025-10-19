@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Prague_Park_v2.Models
 {
-    internal class Car
+    public class Car: Vehicle
     {
+        public Car(string? licensePlate) : base(licensePlate)
+        {
+            Size = 2;
+            PricePerHour = 40;
+            ArrivalTime = DateTime.Now;
+        }
     }
 }
