@@ -6,7 +6,7 @@ namespace Prague_Park_v2
     {
         static void Main(string[] args)
         {
-            var garage = new ParkingGarage(size:10);
+            var garage = new ParkingGarage(size: 10);
 
             var car = new Car("ABC123");
             Console.WriteLine($"Attempting to park {car.LicensePlate} size {car.Size}");
@@ -18,6 +18,17 @@ namespace Prague_Park_v2
             else
             {
                 Console.WriteLine($"Failed to park {car.LicensePlate}");
+            }
+
+            //remove vehicle
+            Console.WriteLine($"Attempting to remove {car.LicensePlate}");
+            if (garage.TryRemoveVehicle(car.LicensePlate, out Vehicle? removed))
+            {
+                Console.WriteLine($"Removed {removed.LicensePlate} from garage");
+            }
+            else
+            {
+                Console.WriteLine($"Failed to remove {car.LicensePlate}");
             }
         }
     }

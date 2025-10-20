@@ -12,11 +12,12 @@ namespace Prague_Park_v2.Models
 
         public int Height { get; set; }
 
-        public int AvailableSize { get; set; }
+        public int AvailableSize { get; private set; }
 
         public int SpotNumber { get; set; }
 
-        public List<Vehicle> ParkedVehicles { get; set; }
+        private readonly List<Vehicle> _parkedVehicles;
+        public IReadOnlyList<Vehicle> ParkedVehicles => _parkedVehicles.AsReadOnly();
 
         public ParkingSpot( int spotNumber)
         {
@@ -28,12 +29,18 @@ namespace Prague_Park_v2.Models
 
             AvailableSize = Size;
 
-            ParkedVehicles = new List<Vehicle>();
+            _parkedVehicles = new List<Vehicle>();
         }
 
         public void AddVehicle(Vehicle vehicle)
         {
-            ParkedVehicles.Add(vehicle);
+            if(vehicle == null) throw new ArgumentNullException(nameof(vehicle));
+            if (!CanFitVehicle(vehicle))
+            {
+                throw new InvalidOperationException("Vehicle does not fit in the parking spot.");
+            }
+            if ( vehicle)
+            _parkedVehicles.Add(vehicle);
             AvailableSize -= vehicle.Size;
         }
 
