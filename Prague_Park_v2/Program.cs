@@ -6,30 +6,20 @@ namespace Prague_Park_v2
     {
         static void Main(string[] args)
         {
-            var garage = new ParkingGarage(size: 10);
+            string dataFile = "parking_garage_data.json";
+            var garage = ParkingGarage.LoadFromFile(dataFile);
 
-            var car = new Car("ABC123");
-            Console.WriteLine($"Attempting to park {car.LicensePlate} size {car.Size}");
 
-            if (garage.TryParkVehicle(car, out int spotNumber))
-            {
-                Console.WriteLine($"Parked {car.LicensePlate} at spot {spotNumber}");
-            }
-            else
-            {
-                Console.WriteLine($"Failed to park {car.LicensePlate}");
-            }
+            //
+            //
+            //App logic here
+            //
+            //
 
-            //remove vehicle
-            Console.WriteLine($"Attempting to remove {car.LicensePlate}");
-            if (garage.TryRemoveVehicle(car.LicensePlate, out Vehicle? removed))
-            {
-                Console.WriteLine($"Removed {removed.LicensePlate} from garage");
-            }
-            else
-            {
-                Console.WriteLine($"Failed to remove {car.LicensePlate}");
-            }
+
+
+            // Save the garage state before exiting
+            garage.SaveToFile(dataFile);
         }
     }
 }

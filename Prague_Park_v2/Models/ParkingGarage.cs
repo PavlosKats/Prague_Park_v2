@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Text.Json;
 
 namespace Prague_Park_v2.Models
 {
@@ -10,12 +12,27 @@ namespace Prague_Park_v2.Models
 
     {
 
-        public List<ParkingSpot> Garage { get; }
+        public List<ParkingSpot> Garage { get; set; } = new();
 
-        //TODO read the config file to get the name and size of the garage
+        public void SaveToFile(string filePath)
+        {
+            var json = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(filePath, json);
+        }
 
-        public int Size { get; private set; }
+        public static ParkingGarage LoadFromFile(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+              return new ParkingGarage();
+            }
+            var json = File.ReadAllText(filePath);
+            return JsonSerializer.Deserialize<ParkingGarage>(json) ?? new ParkingGarage();
+        }
 
+        public int Size { get; set; }
+
+        public ParkingGarage() { }
 
         public ParkingGarage(int size)
         {

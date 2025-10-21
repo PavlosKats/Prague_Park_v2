@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Prague_Park_v2.Models
 {
-    internal class Mc: Vehicle
+    public class Mc: Vehicle
     {
         public Mc(string? licensePlate): base(licensePlate)
         {

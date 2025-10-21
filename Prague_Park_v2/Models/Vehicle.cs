@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace Prague_Park_v2.Models
 {
@@ -18,7 +19,19 @@ namespace Prague_Park_v2.Models
 
         public Vehicle(string? licensePlate)
         {
+            if(!IsValidLicensePlate(licensePlate))
+            {
+                throw new ArgumentException("Invalid license plate format.",nameof(licensePlate));
+            }
             LicensePlate = licensePlate;
+        }
+
+        private static bool IsValidLicensePlate(string? plate)
+        {
+            if (string.IsNullOrWhiteSpace(plate))
+                return false;
+            var pattern = @"^[A-Za-zÅÄÖØÆåäöøæ]{3}[0-9]{3}$";
+            return Regex.IsMatch(plate, pattern, RegexOptions.IgnoreCase);
         }
 
         public string GetInfo()

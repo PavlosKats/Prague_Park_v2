@@ -1,0 +1,19 @@
+{
+  "GarageSize": 50,
+  "VehicleTypes": [
+    {
+      "Type": "Car",
+      "Size": 2,
+      "PricePerHour": 20
+    },
+    {
+      "Type": "Mc",
+      "Size": 1,
+      "PricePerHour": 10
+    }
+  ],
+  "ParkingSpot": {
+    "Size": 4,
+    "Height": 2
+  }
+}
