@@ -9,6 +9,10 @@
 
   <ItemGroup>
     <Folder Include="Tests\" />
+	<Content Include="appconfig.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <!-- or Use Always -->
+	</Content>
   </ItemGroup>
 
 </Project>
