@@ -18,9 +18,6 @@ namespace Prague_Park_v2.Models
 
         public ParkingSpot( int spotNumber)
         {
-            Size = 4; // TODO read from config
-
-            Height = 2; // TODO read from config
 
             SpotNumber = spotNumber;
 
@@ -42,8 +39,12 @@ namespace Prague_Park_v2.Models
 
         public void RemoveVehicle(Vehicle vehicle)
         {
-            ParkedVehicles.Remove(vehicle);
-            AvailableSize += vehicle.Size;
+            if (vehicle == null) return;
+            var removed = ParkedVehicles.Remove(vehicle);
+            if (removed)
+            {
+                AvailableSize += vehicle.Size;
+            }
         }
 
         public bool CanFitVehicle(Vehicle vehicle)

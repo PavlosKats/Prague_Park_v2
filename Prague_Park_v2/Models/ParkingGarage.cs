@@ -20,14 +20,63 @@ namespace Prague_Park_v2.Models
             File.WriteAllText(filePath, json);
         }
 
-        public static ParkingGarage LoadFromFile(string filePath)
+        public static ParkingGarage LoadFromFile(string filePath, int garageSize)
         {
+            if (garageSize <= 0)
+            {
+                throw new ArgumentException("Garage size must be greater than zero.", nameof(garageSize));
+            }
+
             if (!File.Exists(filePath))
             {
-              return new ParkingGarage();
+              return new ParkingGarage(garageSize);
             }
-            var json = File.ReadAllText(filePath);
-            return JsonSerializer.Deserialize<ParkingGarage>(json) ?? new ParkingGarage();
+
+            try
+            {
+                var json = File.ReadAllText(filePath);
+                var loaded = JsonSerializer.Deserialize<ParkingGarage>(json);
+
+                if (loaded == null || loaded.Size <= 0)
+                {
+                    return new ParkingGarage(garageSize);
+                }
+
+                // If the persisted Garage list is missing or does not match the persisted Size,
+                // recreate spots to match the persisted Size
+                if (loaded.Garage == null || loaded.Garage.Count != loaded.Size)
+                {
+                    loaded.Garage = new List<ParkingSpot>(loaded.Size);
+                    for (int i = 0; i < loaded.Size; i++)
+                    {
+                        loaded.Garage.Add(new ParkingSpot(i + 1));
+                    }
+                }
+
+                // Ensure each spot has a valid SpotNumber and recompute AvailableSize
+                for (int i = 0; i < loaded.Garage.Count; i++)
+                {
+                    var spot = loaded.Garage[i];
+                    spot.SpotNumber = i + 1;
+
+                    var parkedTotal = (spot.ParkedVehicles ?? new List<Vehicle>()).Sum(v => v?.Size ?? 0);
+                    // if Size is invalid (e.g. zero), fall back to a sensible default (4)
+                    if (spot.Size <= 0)
+                    {
+                        spot.Size = 4;
+                    }
+                    spot.AvailableSize = Math.Max(0, spot.Size - parkedTotal);
+                }
+
+                return loaded;
+            }
+            catch (Exception)
+            {
+
+                return new ParkingGarage(garageSize);
+            }
+
+            
         }
 
         public int Size { get; set; }
@@ -56,10 +105,14 @@ namespace Prague_Park_v2.Models
             {
                 throw new ArgumentNullException(nameof(vehicle));
             }
+
+            if (Garage == null || Garage.Count == 0) return false;
+
             var spot = Garage.FirstOrDefault(s => s.CanFitVehicle(vehicle));
             if (spot == null) return false;
 
-            if (!spot.CanFitVehicle(vehicle)) return false;
+            // set arrival time when parking
+            vehicle.ArrivalTime = DateTime.Now;
 
             spot.AddVehicle(vehicle);
             spotNumber = spot.SpotNumber;
