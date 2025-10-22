@@ -43,13 +43,13 @@ namespace Prague_Park_v2
                     {
                         foreach (var vt in config.VehicleTypes)
                         {
-                            Console.WriteLine($" - {vt.Type}: Size={vt.Size}, PricePerHour={vt.PricePerHour}");
+                            Console.WriteLine($" - {vt.Type}: Size = {vt.Size}, PricePerHour = {vt.PricePerHour}");
                         }
                     }
                 }
                 else if (choice == "2")
                 {
-                    Console.Write("Vehicle type to edit (e.g. Car): ");
+                    Console.Write("Vehicle type to edit (Car or Mc): ");
                     string? type = Console.ReadLine();
                     Console.Write("New price per hour: ");
                     if (int.TryParse(Console.ReadLine(), out int newPrice) && !string.IsNullOrWhiteSpace(type))
