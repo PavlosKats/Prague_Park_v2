@@ -8,7 +8,9 @@ namespace Prague_Park_v2.Models
 {
     public class Car: Vehicle
     {
-        public Car(string? licensePlate, int size = 2, int pricePerHour = 40) : base(licensePlate)
+        public Car(string? licensePlate) : base(licensePlate) { }
+
+        public Car(string? licensePlate, int size, int pricePerHour) : base(licensePlate)
         {
             Size = size;
             PricePerHour = pricePerHour;

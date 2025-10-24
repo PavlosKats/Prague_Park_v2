@@ -21,22 +21,22 @@ namespace Prague_Park_v2.Services
 
             var vt = _config.VehicleTypes?.FirstOrDefault(v => string.Equals(v.Type, type, StringComparison.OrdinalIgnoreCase));
 
-            if ( vt == null)
+            if (vt == null)
+                throw new InvalidOperationException($"Unsupported vehicle type: {type}");
+
+            Vehicle vehicle = vt.Type.ToLowerInvariant() switch
             {
-                return type.ToLowerInvariant() switch
-                {
-                    "car" => new Car(licensePlate),
-                    "mc" => new Mc(licensePlate),
-                    _ => throw new InvalidOperationException($"Unsupported vehicle type: {type}")
-                };
+                "car" => new Car(licensePlate),
+                "mc" => new Mc(licensePlate),
+                // Add more types here as needed
+                _ => throw new InvalidOperationException($"Unsupported vehicle type: {type}")
             };
 
-            return vt.Type.Equals("Car", StringComparison.OrdinalIgnoreCase) 
-                ?new Car(licensePlate, vt.Size, vt.PricePerHour)
-                : vt.Type.Equals("Mc", StringComparison.OrdinalIgnoreCase)
-                    ? new Mc(licensePlate, vt.Size, vt.PricePerHour)
-                    : new Vehicle(licensePlate) { Size = vt.Size, PricePerHour = vt.PricePerHour, ArrivalTime = DateTime.Now };
 
+            vehicle.Size = vt.Size;
+            vehicle.PricePerHour = vt.PricePerHour;
+            vehicle.ArrivalTime = DateTime.Now;
+            return vehicle;
         }
 
     }

@@ -29,9 +29,10 @@ namespace Prague_Park_v2
                 Console.WriteLine();
                 Console.WriteLine("1) Show prices");
                 Console.WriteLine("2) Change price");
-                Console.WriteLine("3) Park a vehicle (demo)");
-                Console.WriteLine("4) Remove a vehicle (demo)");
-                Console.WriteLine("5) Save config & data and exit");
+                Console.WriteLine("3) Park vehicle");
+                Console.WriteLine("4) Show parking garage map");
+                Console.WriteLine("5) Remove a vehicle (demo)");
+                Console.WriteLine("6) Save config & data and exit");
                 Console.Write("Choice: ");
                 var choice = Console.ReadLine();
                 Console.WriteLine();
@@ -71,22 +72,14 @@ namespace Prague_Park_v2
                 }
                 else if (choice == "3")
                 {
-                    Console.Write("Vehicle type to park (Car/Mc): ");
-                    string? type = Console.ReadLine();
-                    Console.Write("License plate: ");
-                    string? plate = Console.ReadLine();
-
-                    var vehicle = factory.Create(type ?? "Car", plate);
-                    if (garage.TryParkVehicle(vehicle, out int spot))
-                    {
-                        Console.WriteLine($"Parked {vehicle.LicensePlate} (price {vehicle.PricePerHour}/h) at spot {spot}.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("No space available for this vehicle.");
-                    }
+                    ParkingService.ParkVehicle(garage, factory);
                 }
                 else if (choice == "4")
+                {
+                    ParkingDisplayService.ShowGarageMap(garage);
+                }
+
+                else if (choice == "5")
                 {
                     Console.Write("License plate to remove: ");
                     string? plate = Console.ReadLine();
@@ -100,7 +93,8 @@ namespace Prague_Park_v2
                         Console.WriteLine("Vehicle not found.");
                     }
                 }
-                else if (choice == "5")
+
+                else if (choice == "6")
                 {
                     // Save runtime data and config and exit
                     garage.SaveToFile(dataPath);
