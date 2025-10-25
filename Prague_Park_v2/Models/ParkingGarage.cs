@@ -11,7 +11,6 @@ namespace Prague_Park_v2.Models
     public class ParkingGarage
 
     {
-
         public List<ParkingSpot> Garage { get; set; } = new();
 
         public void SaveToFile(string filePath)
@@ -104,6 +103,11 @@ namespace Prague_Park_v2.Models
             if (vehicle == null)
             {
                 throw new ArgumentNullException(nameof(vehicle));
+            }
+
+            if(Garage.Any(s => s.ParkedVehicles.Any(v => v.LicensePlate == vehicle.LicensePlate)))
+            {
+                return false; // duplicate found, do not park.
             }
 
             if (Garage == null || Garage.Count == 0) return false;
