@@ -1,4 +1,5 @@
-﻿using Prague_Park_v2.Models;
+﻿using Spectre.Console;
+using Prague_Park_v2.Models;
 using Prague_Park_v2.Services;
 using Prague_Park_v2.Utils;
 using System;
@@ -22,23 +23,45 @@ namespace Prague_Park_v2
 
             // Load or create garage using configured size
             var garage = ParkingGarage.LoadFromFile(dataPath, config.GarageSize);
+;
 
             bool running = true;
             // Menu choices
             while (running)
             {
-                Console.WriteLine();
-                Console.WriteLine("1) Park Vehicle");
-                Console.WriteLine("2) Remove a Vehicle");
-                Console.WriteLine("3) Show parking garage map");
-                Console.WriteLine("4) Show vehicle parking prices");
-                Console.WriteLine("5) Change vehicle parking Prices");
-                Console.WriteLine("6) Change vehicle parking size");
-                Console.WriteLine("7) Save config & data");
-                Console.WriteLine("8) Exit app");
-                Console.Write("\nChoice: ");
-                var choice = Console.ReadLine();
-                Console.WriteLine();
+                AnsiConsole.Clear();
+                var title = new FigletText("Prague Parking V2")
+                    .Centered()
+                    .Color(Color.Green);
+                AnsiConsole.WriteLine();
+
+                // Build menu string with separator
+                var menuContent =
+                    "[bold]1)[/] Park Vehicle\n" +
+                    "[bold]2)[/] Remove a Vehicle\n" +
+                    "[bold]3)[/] Show parking garage map\n" +
+                    "[bold]──────────────────────────────[/]\n" +
+                    "[bold]4)[/] Show vehicle parking prices\n" +
+                    "[bold]5)[/] Change vehicle parking Prices\n" +
+                    "[bold]6)[/] Change vehicle parking size\n" +
+                    "[bold]7)[/] Save config & data\n" +
+                    "[bold]8)[/] Exit app";
+
+                // Show menu in a panel
+                var panel = new Panel(menuContent)
+                    .Header("[yellow]Welcome to Prague Parking App[/]", Justify.Center)
+                    .Border(BoxBorder.Rounded)
+                    .Padding(1, 1)
+                    .Expand();
+
+                AnsiConsole.Write(panel);
+
+                // Prompt for input
+                AnsiConsole.Markup("[grey]Type the number of your choice and press Enter:[/] ");
+                string? typedInput = Console.ReadLine();
+
+                string choice = typedInput?.Trim();
+
 
                 switch (choice)
                 {
@@ -56,7 +79,6 @@ namespace Prague_Park_v2
 
 
                     case "4":
-                        Console.WriteLine("Configured vehicle prices:");
                         if (config.VehicleTypes != null)
                         {
                             foreach (var vt in config.VehicleTypes)
@@ -67,92 +89,81 @@ namespace Prague_Park_v2
                         break;
 
                     case "5":
-                        Console.Write("Vehicle type to edit (Car or Mc): ");
+                        AnsiConsole.Markup("[yellow]Vehicle type to edit (Car or Mc):[/] ");
                         string? type = Console.ReadLine();
-                        Console.Write("New price per hour: ");
+                        AnsiConsole.Markup("[yellow]New price per hour:[/] ");
                         if (int.TryParse(Console.ReadLine(), out int newPrice) && !string.IsNullOrWhiteSpace(type))
                         {
                             if (ConfigManager.SetPriceForType(config, type!, newPrice))
                             {
                                 ConfigManager.Save(configPath, config);
-                                Console.WriteLine("Price updated and saved to appconfig.json.");
+                                AnsiConsole.MarkupLine("[green]Price updated and saved to appconfig.json.[/]");
                             }
                             else
                             {
-                                Console.WriteLine("Vehicle type not found in config.");
+                                AnsiConsole.MarkupLine("[red]Vehicle type not found in config.[/]");
                             }
                         }
                         else
                         {
-                            Console.WriteLine("Invalid input.");
+                            AnsiConsole.MarkupLine("[red]Invalid input.[/]");
                         }
                         break;
 
                     case "6":
-                        Console.Write("Enter new number of parking spots: ");
+                        AnsiConsole.Markup("[yellow]Enter new number of parking spots:[/] ");
                         string? newSizeInput = Console.ReadLine();
                         if (int.TryParse(newSizeInput, out int newSize) && newSize > 0)
                         {
-                            // 1. Collect all parked vehicles
                             var allVehicles = garage.Garage
                                 .SelectMany(spot => spot.ParkedVehicles)
                                 .ToList();
 
-                            // 2. Update config and create new garage
                             config.GarageSize = newSize;
                             var newGarage = new ParkingGarage(newSize);
 
-                            // 3. Attempt to re-park each vehicle
                             foreach (var vehicle in allVehicles)
                             {
                                 if (!newGarage.TryParkVehicle(vehicle, out int spot))
                                 {
-                                    Console.WriteLine($"Warning: Could not re-park vehicle {vehicle.LicensePlate} (type: {vehicle.GetType().Name}) due to insufficient space.");
+                                    AnsiConsole.MarkupLine($"[red]Warning: Could not re-park vehicle {vehicle.LicensePlate} (type: {vehicle.GetType().Name}) due to insufficient space.[/]");
                                 }
                             }
 
                             garage = newGarage;
                             ConfigManager.Save(configPath, config);
-                            Console.WriteLine($"Garage size updated to {newSize}, vehicles transferred, and config saved to appconfig.json.");
+                            AnsiConsole.MarkupLine($"[green]Garage size updated to {newSize}, vehicles transferred, and config saved to appconfig.json.[/]");
                         }
                         else
                         {
-                            Console.WriteLine("Invalid input. Garage size must be a positive integer.");
+                            AnsiConsole.MarkupLine("[red]Invalid input. Garage size must be a positive integer.[/]");
                         }
                         break;
 
-                    case "7":
 
-                        // Save runtime data and config and exit
+                    case "7":
                         garage.SaveToFile(dataPath);
                         ConfigManager.Save(configPath, config);
-                        Console.WriteLine("Saved data and config. Exiting.");
-
-                        // Show updated config file contents
-                        Console.WriteLine("\nUpdated appconfig.json:");
-                        if (File.Exists(configPath))
-                        {
-                            string configContents = File.ReadAllText(configPath);
-                            Console.WriteLine(configContents);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Config file not found.");
-                        }
-
-                        Console.WriteLine("\nUpdated configuration:");
+                        AnsiConsole.MarkupLine("[green]Saved data and config.[/]");
+                        AnsiConsole.MarkupLine("\n[bold]Updated configuration:[/]");
                         ConfigDisplayService.PrintConfig(config);
-                        Console.WriteLine("Returning to menu");
+                        AnsiConsole.MarkupLine("[yellow]Returning to menu[/]");
                         break;
 
                     case "8":
                         running = false;
-                        Console.WriteLine("Exiting.");
+                        AnsiConsole.MarkupLine("[bold red]Exiting.[/]");
                         break;
-                       
+
                     default:
-                        Console.WriteLine("Unknown choice.");
+                        AnsiConsole.MarkupLine("[red]Unknown choice.[/]");
                         break;
+
+                }
+                if (running)
+                {
+                    AnsiConsole.MarkupLine("\n[grey]Press any key to return to menu...[/]");
+                    Console.ReadKey(true);
                 }
             }
         }
