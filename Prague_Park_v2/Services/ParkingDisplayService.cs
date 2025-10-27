@@ -1,4 +1,5 @@
 ﻿using Prague_Park_v2.Models;
+using Spectre.Console;
 using System;
 
 namespace Prague_Park_v2.Services
@@ -7,14 +8,62 @@ namespace Prague_Park_v2.Services
     {
         public static void ShowGarageMap(ParkingGarage garage)
         {
-            Console.WriteLine("Parking Garage Map:");
-            foreach (var spot in garage.Garage)
+            int totalSpots = garage.Size;
+            int columns = 10;
+            int rows = (int)Math.Ceiling(totalSpots / (double)columns);
+
+            var table = new Table()
+                .Border(TableBorder.Rounded)
+                .Collapse()
+                .HideHeaders();
+
+            //add columns
+            for (int c = 0; c < rows; c++)
+                table.AddColumn("");
+
+            int spotIndex = 0;
+            for (int r = 0; r < rows; r++)
             {
-                string status = spot.ParkedVehicles.Count > 0
-                    ? $"Occupied by: {string.Join(", ", spot.ParkedVehicles.Select(v => $"{v.LicensePlate} ({v.GetType().Name})"))}"
-                    : "Empty";
-                Console.WriteLine($"Spot {spot.SpotNumber}: {status} (Free space: {spot.AvailableSize}/{spot.Size})");
+                var row = new List<Markup>();
+                for (int c = 0;c < columns; c++)
+                {
+                    if (spotIndex < totalSpots)
+                    {
+                        var spot = garage.Garage[spotIndex];
+                        string cellContent;
+                        if (spot.ParkedVehicles.Count == 0)
+                        {
+                            // Free spot: show spot number and green square
+                            cellContent = $"[grey]{spot.SpotNumber}[/]\n[green]■[/]";
+                        }
+                        else
+                        {
+                            // Occupied: show spot number and all vehicles, color-coded
+                            var vehiclesMarkup = spot.ParkedVehicles.Select(v =>
+                            {
+                                string color = v.GetType().Name switch
+                                {
+                                    "Car" => "blue",
+                                    "Mc" => "yellow",
+                                   _ => "red"
+                                };
+                                return $"[{color}]{v.LicensePlate}[/]";
+                            });
+                            cellContent = $"[grey]{spot.SpotNumber}[/]\n{string.Join(", ", vehiclesMarkup)}";
+                        }
+                        row.Add(new Markup(cellContent));
+                        spotIndex++;
+                    }
+                    else
+                    {
+                        row.Add(new Markup(" "));
+                    }
+                }
+                table.AddRow(row.ToArray());
             }
+            AnsiConsole.Write(table);
+            AnsiConsole.MarkupLine("[green]■[/] = Free spot, [blue]LicensePlate[/] = Car, [yellow]LicensePlate[/] = Mc, [red]LicensePlate[/] = Other");
+
         }
     }
 }

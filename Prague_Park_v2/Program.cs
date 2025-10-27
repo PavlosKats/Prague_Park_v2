@@ -142,8 +142,8 @@ namespace Prague_Park_v2
 
 
                     case "7":
-                        garage.SaveToFile(dataPath);
-                        ConfigManager.Save(configPath, config);
+                        
+                        
                         AnsiConsole.MarkupLine("[green]Saved data and config.[/]");
                         AnsiConsole.MarkupLine("\n[bold]Updated configuration:[/]");
                         ConfigDisplayService.PrintConfig(config);
@@ -151,6 +151,8 @@ namespace Prague_Park_v2
                         break;
 
                     case "8":
+                        garage.SaveToFile(dataPath);
+                        ConfigManager.Save(configPath, config);
                         running = false;
                         AnsiConsole.MarkupLine("[bold red]Exiting.[/]");
                         break;
