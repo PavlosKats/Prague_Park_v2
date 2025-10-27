@@ -79,12 +79,37 @@ namespace Prague_Park_v2
 
 
                     case "4":
-                        if (config.VehicleTypes != null)
+                        //if (config.VehicleTypes != null)
+                        //{
+                        //    foreach (var vt in config.VehicleTypes)
+                        //    {
+                        //        Console.WriteLine($" - {vt.Type}: Size = {vt.Size}, PricePerHour = {vt.PricePerHour}");
+                        //    }
+                        //}
+                        //break;
+                        if (config.VehicleTypes != null && config.VehicleTypes.Count > 0)
                         {
+                            var priceTable = new Table()
+                                .Border(TableBorder.Rounded)
+                                .Title("[yellow]Vehicle Parking Prices[/]")
+                                .AddColumn("[bold]Type[/]")
+                                .AddColumn("[bold]Size[/]")
+                                .AddColumn("[bold]Price Per Hour[/]");
+
                             foreach (var vt in config.VehicleTypes)
                             {
-                                Console.WriteLine($" - {vt.Type}: Size = {vt.Size}, PricePerHour = {vt.PricePerHour}");
+                                priceTable.AddRow(
+                                    $"[green]{vt.Type}[/]",
+                                    $"[blue]{vt.Size}[/]",
+                                    $"[yellow]{vt.PricePerHour}[/]"
+                                );
                             }
+
+                            AnsiConsole.Write(priceTable);
+                        }
+                        else
+                        {
+                            AnsiConsole.MarkupLine("[red]No vehicle types configured.[/]");
                         }
                         break;
 

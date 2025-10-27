@@ -41,11 +41,13 @@ namespace Prague_Park_v2.Services
                             // Occupied: show spot number and all vehicles, color-coded
                             var vehiclesMarkup = spot.ParkedVehicles.Select(v =>
                             {
-                                string color = v.GetType().Name switch
+                                string color = v.Size  switch
                                 {
-                                    "Car" => "blue",
-                                    "Mc" => "yellow",
-                                   _ => "red"
+                                    1 => "yellow",   // e.g., Mc
+                                    2 => "blue",     // e.g., Car
+                                    3 => "magenta",  // larger vehicle
+                                    4 => "red",      // even larger
+                                    _ => "grey"      // unknown size
                                 };
                                 return $"[{color}]{v.LicensePlate}[/]";
                             });
