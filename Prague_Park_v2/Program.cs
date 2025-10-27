@@ -142,8 +142,8 @@ namespace Prague_Park_v2
 
 
                     case "7":
-                        
-                        
+
+                        ConfigManager.Save(configPath, config);
                         AnsiConsole.MarkupLine("[green]Saved data and config.[/]");
                         AnsiConsole.MarkupLine("\n[bold]Updated configuration:[/]");
                         ConfigDisplayService.PrintConfig(config);
