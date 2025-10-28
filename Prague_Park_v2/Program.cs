@@ -10,12 +10,11 @@ namespace Prague_Park_v2
     internal class Program
     {
 
-        //TODO implement an optimise parking for cars and mcs, based on size.
+        
         //Implement two unit tests with MSTest
         //Fix comments.
         //Create readme.md
         //Write a summary/reflection.
-        //Ask question about specific files of the project.
         //Find out why $type of vehicle is problematic when saving and loading.
 
         static void Main(string[] args)

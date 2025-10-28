@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Spectre.Console;
 using System.Text.RegularExpressions;
 
 namespace Prague_Park_v2.Models
@@ -42,12 +38,41 @@ namespace Prague_Park_v2.Models
         public void CheckoutVehicle(DateTime departureTime)
         {
             TimeSpan duration = departureTime - ArrivalTime;
-            double totalHours = Math.Ceiling(duration.TotalHours);
-            double totalMinutes = Math.Ceiling(duration.TotalMinutes);
-            double totalPrice = totalHours * PricePerHour;
-            Console.WriteLine($"Vehicle with License Plate: {LicensePlate} is checking out.");
-            Console.WriteLine($"Total Duration: {totalHours} hours and {totalMinutes} minute/s");
-            Console.WriteLine($"Total Price: {totalPrice} currency units");
+            int totalMinutes = (int)duration.TotalMinutes;
+            int hours = totalMinutes / 60;
+            int minutes = totalMinutes % 60;
+
+            double totalHours;
+            double totalPrice;
+            string freeMessage = "";
+
+            if (totalMinutes <= 10)
+            {
+                totalHours = 0;
+                totalPrice = 0;
+                freeMessage = "[green]Parking is free![/] (Duration under 10 minutes)\n";
+            }
+            else
+            {
+                // Subtract the free 10 minutes, then round up to the next hour
+                int billableMinutes = totalMinutes - 10;
+                totalHours = Math.Ceiling(billableMinutes / 60.0);
+                totalPrice = totalHours * PricePerHour;
+            }
+
+            var panel = new Panel(
+                $"[bold yellow]Vehicle Checkout[/]\n" +
+                $"[green]License Plate:[/] [white]{LicensePlate}[/]\n" +
+                $"[blue]Total Duration:[/] [white]{hours}[/] hours and [white]{minutes}[/] minute(s)\n" +
+                freeMessage +
+                $"[yellow]Total Price:[/] [white]{totalPrice}[/] currency units"
+            )
+            .Header("[bold green]Checkout Summary[/]", Justify.Center)
+            .Border(BoxBorder.Rounded)
+            .Padding(1, 1)
+            .Expand();
+
+            AnsiConsole.Write(panel);
         }
     }
 }
