@@ -28,7 +28,7 @@ namespace Prague_Park_v2.Services
             {
                 "car" => new Car(licensePlate),
                 "mc" => new Mc(licensePlate),
-                // Add more types here as needed
+                // Add more types here 
                 _ => throw new InvalidOperationException($"Unsupported vehicle type: {type}")
             };
 

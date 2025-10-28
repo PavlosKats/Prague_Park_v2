@@ -43,9 +43,10 @@ namespace Prague_Park_v2.Models
         {
             TimeSpan duration = departureTime - ArrivalTime;
             double totalHours = Math.Ceiling(duration.TotalHours);
+            double totalMinutes = Math.Ceiling(duration.TotalMinutes);
             double totalPrice = totalHours * PricePerHour;
             Console.WriteLine($"Vehicle with License Plate: {LicensePlate} is checking out.");
-            Console.WriteLine($"Total Duration: {totalHours} hours");
+            Console.WriteLine($"Total Duration: {totalHours} hours and {totalMinutes} minute/s");
             Console.WriteLine($"Total Price: {totalPrice} currency units");
         }
     }

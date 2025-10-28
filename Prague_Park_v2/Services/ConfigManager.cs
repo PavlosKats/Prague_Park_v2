@@ -35,9 +35,9 @@ namespace Prague_Park_v2.Services
 
                     Save(path, defaultCfg);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    //log this
+                    Console.Error.WriteLine($"Error creating default config file: {ex.Message}");
                 }
 
                 return defaultCfg;
