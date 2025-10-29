@@ -10,13 +10,6 @@ namespace Prague_Park_v2
     internal class Program
     {
 
-        //fix currency display
-
-        //Implement two unit tests with MSTest
-        //Create readme.md
-        //Write a summary/reflection.
-
-
         static void Main(string[] args)
         {
             string baseDir = AppContext.BaseDirectory;
@@ -112,7 +105,7 @@ namespace Prague_Park_v2
                                 priceTable.AddRow(
                                     $"[green]{vt.Type}[/]",
                                     $"[blue]{vt.Size}[/]",
-                                    $"[yellow]{vt.PricePerHour} CHZ [/]"
+                                    $"[yellow]{vt.PricePerHour} CZK [/]"
                                 );
                             }
 
