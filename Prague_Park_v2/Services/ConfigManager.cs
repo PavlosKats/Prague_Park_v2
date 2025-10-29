@@ -9,6 +9,7 @@ namespace Prague_Park_v2.Services
 {
     public static class ConfigManager
     {
+        // Load configuration from JSON file, or create default if not found
         public static AppConfig Load(string path)
         {
             var opts = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
@@ -50,6 +51,7 @@ namespace Prague_Park_v2.Services
             return cfg;
         }
 
+        // Save configuration to JSON file
         public static void Save(string path, AppConfig config)
         {
             var opts = new JsonSerializerOptions { WriteIndented = true };

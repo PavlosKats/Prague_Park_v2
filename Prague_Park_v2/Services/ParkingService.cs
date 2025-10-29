@@ -5,6 +5,7 @@ namespace Prague_Park_v2.Services
 {
     public static class ParkingService
     {
+        // Handles parking a vehicle in the garage
         public static void ParkVehicle(ParkingGarage garage, VehicleFactory factory)
         {
             Console.Write("Vehicle type to park (Car/Mc): ");
@@ -46,6 +47,7 @@ namespace Prague_Park_v2.Services
             }
         }
 
+        // Handles removing a vehicle from the garage
         public static void RemoveVehicle(ParkingGarage garage)
         {
             Console.WriteLine("License plate to remove: ");

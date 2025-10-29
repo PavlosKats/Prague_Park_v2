@@ -10,12 +10,15 @@ namespace Prague_Park_v2.Services
     
     public class VehicleFactory
     {
+        // Dependency injection of configuration
         private readonly AppConfig _config;
-        
+
+        // Constructor
         public VehicleFactory(AppConfig config)
         {
             _config = config ?? throw new ArgumentNullException(nameof(config));
         }
+        // Create vehicle based on type
         public Vehicle Create(string type, string? licensePlate)
         {
             if ( string.IsNullOrWhiteSpace(type)) throw new ArgumentException("Vehicle type must be provided", nameof(type));

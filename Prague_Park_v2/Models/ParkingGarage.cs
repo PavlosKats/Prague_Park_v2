@@ -19,6 +19,7 @@ namespace Prague_Park_v2.Models
             File.WriteAllText(filePath, json);
         }
 
+        // Load garage state from file, or create new if file not found or invalid
         public static ParkingGarage LoadFromFile(string filePath, int garageSize)
         {
             if (garageSize <= 0)
@@ -116,7 +117,8 @@ namespace Prague_Park_v2.Models
             if (spot == null) return false;
 
             // set arrival time when parking
-            vehicle.ArrivalTime = DateTime.Now;
+            if (vehicle.ArrivalTime == default)
+                vehicle.ArrivalTime = DateTime.Now;
 
             spot.AddVehicle(vehicle);
             spotNumber = spot.SpotNumber;

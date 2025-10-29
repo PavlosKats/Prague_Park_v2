@@ -22,6 +22,7 @@ namespace Prague_Park_v2.Models
             LicensePlate = licensePlate;
         }
 
+        // Simple license plate validation: 3 letters followed by 3 digits, case insensitive
         private static bool IsValidLicensePlate(string? plate)
         {
             if (string.IsNullOrWhiteSpace(plate))
@@ -35,6 +36,7 @@ namespace Prague_Park_v2.Models
             return $"License Plate: {LicensePlate}, Size: {Size}, Arrival Time: {ArrivalTime}, Price Per Hour: {PricePerHour}";
         }
 
+        // Calculate parking duration and price upon checkout
         public void CheckoutVehicle(DateTime departureTime)
         {
             TimeSpan duration = departureTime - ArrivalTime;

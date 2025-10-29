@@ -13,10 +13,9 @@ namespace Prague_Park_v2
         //fix currency display
 
         //Implement two unit tests with MSTest
-        //Fix comments.
         //Create readme.md
         //Write a summary/reflection.
-        //Find out why $type of vehicle is problematic when saving and loading.
+
 
         static void Main(string[] args)
         {
@@ -48,15 +47,16 @@ namespace Prague_Park_v2
                 var menuContent =
                     "[bold]1)[/] Park Vehicle\n" +
                     "[bold]2)[/] Remove a Vehicle\n" +
-                    "[bold]3)[/] Show parking garage map\n" +
-                    "[bold]4)[/] Optimise Motorcycle vehicles\n" +
+                    "[bold]3)[/] Move a Vehicle \n" +
+                    "[bold]4)[/] Show parking garage map\n" +
+                    "[bold]5)[/] Optimise Motorcycle vehicles\n" +
                     "[bold]──────────────────────────────[/]\n" +
-                    "[bold]5)[/] Show vehicle parking prices\n" +
-                    "[bold]6)[/] Change vehicle parking Prices\n" +
-                    "[bold]7)[/] Change vehicle parking size\n" +
-                    "[bold]8)[/] Save config & data\n" +
+                    "[bold]6)[/] Show vehicle parking prices\n" +
+                    "[bold]7)[/] Change vehicle parking Prices\n" +
+                    "[bold]8)[/] Change vehicle parking size\n" +
+                    "[bold]9)[/] Save config and show new config\n" +
                     "[bold]──────────────────────────────[/]\n" +
-                    "[bold]9)[/] Exit app";
+                    "[bold]0)[/] Exit app";
 
                 // Show menu in a panel
                 var panel = new Panel(menuContent)
@@ -85,14 +85,19 @@ namespace Prague_Park_v2
                         break;
 
                     case "3":
+                        MoveVehicleService.MoveVehicle(garage);
+                        break;
+
+                    case "4":
                         ParkingDisplayService.ShowGarageMap(garage);
                         break;
-                    case "4":
+                    case "5":
                         McOptimiser.Optimise(garage);
                         break;
 
-                    case "5":
-                        
+                    case "6":
+
+                        // Display vehicle prices
                         if (config.VehicleTypes != null && config.VehicleTypes.Count > 0)
                         {
                             var priceTable = new Table()
@@ -107,7 +112,7 @@ namespace Prague_Park_v2
                                 priceTable.AddRow(
                                     $"[green]{vt.Type}[/]",
                                     $"[blue]{vt.Size}[/]",
-                                    $"[yellow]{vt.PricePerHour}[/]"
+                                    $"[yellow]{vt.PricePerHour} CHZ [/]"
                                 );
                             }
 
@@ -119,10 +124,11 @@ namespace Prague_Park_v2
                         }
                         break;
 
-                    case "6":
+                    case "7":
                         AnsiConsole.Markup("[yellow]Vehicle type to edit (Car or Mc):[/] ");
                         string? type = Console.ReadLine();
                         AnsiConsole.Markup("[yellow]New price per hour:[/] ");
+                        // Read and validate new price
                         if (int.TryParse(Console.ReadLine(), out int newPrice) && !string.IsNullOrWhiteSpace(type))
                         {
                             if (ConfigManager.SetPriceForType(config, type!, newPrice))
@@ -141,39 +147,13 @@ namespace Prague_Park_v2
                         }
                         break;
 
-                    case "7":
-                        AnsiConsole.Markup("[yellow]Enter new number of parking spots:[/] ");
-                        string? newSizeInput = Console.ReadLine();
-                        if (int.TryParse(newSizeInput, out int newSize) && newSize > 0)
-                        {
-                            var allVehicles = garage.Garage
-                                .SelectMany(spot => spot.ParkedVehicles)
-                                .ToList();
-
-                            config.GarageSize = newSize;
-                            var newGarage = new ParkingGarage(newSize);
-
-                            foreach (var vehicle in allVehicles)
-                            {
-                                if (!newGarage.TryParkVehicle(vehicle, out int spot))
-                                {
-                                    AnsiConsole.MarkupLine($"[red]Warning: Could not re-park vehicle {vehicle.LicensePlate} (type: {vehicle.GetType().Name}) due to insufficient space.[/]");
-                                }
-                            }
-
-                            garage = newGarage;
-                            ConfigManager.Save(configPath, config);
-                            AnsiConsole.MarkupLine($"[green]Garage size updated to {newSize}, vehicles transferred, and config saved to appconfig.json.[/]");
-                        }
-                        else
-                        {
-                            AnsiConsole.MarkupLine("[red]Invalid input. Garage size must be a positive integer.[/]");
-                        }
-                        break;
-
-
                     case "8":
-
+                        // Change garage size
+                        garage = ResizeParkingSize.Resize(garage);
+                        break;
+                    
+                    case "9":
+                        // Save data and config
                         ConfigManager.Save(configPath, config);
                         AnsiConsole.MarkupLine("[green]Saved data and config.[/]");
                         AnsiConsole.MarkupLine("\n[bold]Updated configuration:[/]");
@@ -181,14 +161,14 @@ namespace Prague_Park_v2
                         AnsiConsole.MarkupLine("[yellow]Returning to menu[/]");
                         break;
 
-                    case "9":
+                    case "0":
+                        // Save data and config before exiting
                         garage.SaveToFile(dataPath);
                         ConfigManager.Save(configPath, config);
                         running = false;
                         AnsiConsole.MarkupLine("[bold red]Exiting.[/]");
                         break;
 
-                    
 
                     default:
                         AnsiConsole.MarkupLine("[red]Unknown choice.[/]");

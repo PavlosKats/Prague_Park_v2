@@ -13,19 +13,22 @@ namespace Prague_Park_v2.Models
         public int AvailableSize { get; set; }
         public int SpotNumber { get; set; }
 
+        // List of vehicles currently parked in this spot
         public List<Vehicle> ParkedVehicles { get; set; } = new();
         public ParkingSpot() { }
 
+        // Constructor to initialize parking spot with a specific spot number
         public ParkingSpot( int spotNumber)
         {
 
             SpotNumber = spotNumber;
 
             AvailableSize = Size;
-
+            
             ParkedVehicles = new List<Vehicle>();
         }
 
+        // Adds a vehicle to the parking spot if it fits
         public void AddVehicle(Vehicle vehicle)
         {
             if(vehicle == null) throw new ArgumentNullException(nameof(vehicle));
