@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Prague_Park_v2.Services
 {
-    internal class MoveVehicleService
+    public class MoveVehicleService
     {
         public static void MoveVehicle(ParkingGarage garage)
         {

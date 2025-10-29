@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Prague_Park_v2.Services
 {
-    internal class ResizeParkingSize
+    public class ResizeParkingSize
     {
         /// <summary>
         /// Resizes the parking garage according to user input, preserving vehicles.
