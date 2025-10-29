@@ -10,7 +10,8 @@ namespace Prague_Park_v2
     internal class Program
     {
 
-        
+        //fix currency display
+
         //Implement two unit tests with MSTest
         //Fix comments.
         //Create readme.md

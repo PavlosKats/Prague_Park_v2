@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Prague_Park_v2.Services
 {
+    
     public class VehicleFactory
     {
         private readonly AppConfig _config;
-
+        
         public VehicleFactory(AppConfig config)
         {
             _config = config ?? throw new ArgumentNullException(nameof(config));
