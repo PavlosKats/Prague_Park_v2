@@ -3,12 +3,12 @@
   "VehicleTypes": [
     {
       "Type": "Car",
-      "Size": 2,
+      "Size": 4,
       "PricePerHour": 20
     },
     {
       "Type": "Mc",
-      "Size": 1,
+      "Size": 2,
       "PricePerHour": 10
     }
   ],

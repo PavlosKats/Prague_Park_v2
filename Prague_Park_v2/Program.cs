@@ -143,6 +143,7 @@ namespace Prague_Park_v2
                     case "8":
                         // Change garage size
                         garage = ResizeParkingSize.Resize(garage);
+                        config.GarageSize = garage.Size;
                         break;
                     
                     case "9":

@@ -1,10 +1,5 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prague_Park_v2.Models;
 using Prague_Park_v2.Services;
-using System;
-using System.IO;
-using Spectre.Console;
-using System.Linq;
 
 namespace Prague_Park_v2.Tests
 {

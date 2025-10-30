@@ -43,10 +43,10 @@ namespace Prague_Park_v2.Services
                             {
                                 string color = v.Size  switch
                                 {
-                                    1 => "yellow",   // e.g., Mc
-                                    2 => "blue",     // e.g., Car
-                                    3 => "magenta",  // larger vehicle
-                                    4 => "red",      // even larger
+                                    2 => "yellow",   // e.g., Mc
+                                    4 => "blue",     // e.g., Car
+                                    6 => "magenta",  // larger vehicle
+                                    8 => "red",      // even larger
                                     _ => "grey"      // unknown size
                                 };
                                 return $"[{color}]{v.LicensePlate}[/]";
