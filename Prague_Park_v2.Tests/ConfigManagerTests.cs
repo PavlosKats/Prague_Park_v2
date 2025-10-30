@@ -2,10 +2,12 @@
 using Prague_Park_v2.Services;
 
 namespace Prague_Park_v2.Tests
+
 {
     [TestClass]
     public sealed class ConfigManagerTests
     {
+        // Generates a temporary file path for testing
         private static string TempConfigPath()
         {
             var dir = Path.Combine(Path.GetTempPath(), "PragueParkTests", Guid.NewGuid().ToString());
@@ -16,6 +18,7 @@ namespace Prague_Park_v2.Tests
         [TestMethod]
         public void SaveThenLoad_PersistsData()
         {
+            // Arrange
             var path = TempConfigPath();
             try
             {
@@ -31,11 +34,14 @@ namespace Prague_Park_v2.Tests
 
                 // Ensure directory exists before Save
                 var dir = Path.GetDirectoryName(path);
+                //create dir if not exists
                 if (!string.IsNullOrEmpty(dir)) Directory.CreateDirectory(dir);
 
+                // Act
                 ConfigManager.Save(path, cfg);
                 var loaded = ConfigManager.Load(path);
 
+                // Assert
                 Assert.IsNotNull(loaded);
                 Assert.AreEqual(42, loaded.GarageSize);
                 Assert.IsNotNull(loaded.VehicleTypes);
@@ -45,6 +51,7 @@ namespace Prague_Park_v2.Tests
             }
             finally
             {
+                // Clean up
                 var dir = Path.GetDirectoryName(path);
                 if (!string.IsNullOrEmpty(dir) && Directory.Exists(dir)) Directory.Delete(dir, recursive: true);
             }

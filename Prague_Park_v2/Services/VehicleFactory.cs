@@ -7,7 +7,13 @@ using System.Threading.Tasks;
 
 namespace Prague_Park_v2.Services
 {
-    
+    /// <summary>
+    /// Provides functionality to create vehicle instances based on a specified type.
+    /// </summary>
+    /// <remarks>The <see cref="VehicleFactory"/> class uses configuration data to determine the supported
+    /// vehicle types and their associated properties. It supports dependency injection of an <see cref="AppConfig"/>
+    /// instance to retrieve the configuration. This factory ensures that only supported vehicle types can be created,
+    /// and it initializes the vehicle's properties such as size, price per hour, and arrival time.</remarks>
     public class VehicleFactory
     {
         // Dependency injection of configuration

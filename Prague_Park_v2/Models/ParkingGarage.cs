@@ -8,11 +8,19 @@ using System.Text.Json;
 
 namespace Prague_Park_v2.Models
 {
+    /// <summary>
+    /// The ParkingGarage class represents a parking garage containing multiple parking spots.
+    /// </summary>
+    /// <remarks>
+    /// The ParkingGarage class provides functionality to park and remove vehicles,and save and load the garage state to/from a file.
+    /// </remarks> 
     public class ParkingGarage
 
     {
+        // List of parking spots in the garage
         public List<ParkingSpot> Garage { get; set; } = new();
 
+        // Save garage state to file
         public void SaveToFile(string filePath)
         {
             var json = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
@@ -34,7 +42,9 @@ namespace Prague_Park_v2.Models
 
             try
             {
+                
                 var json = File.ReadAllText(filePath);
+                // Deserialize the JSON content to a ParkingGarage object
                 var loaded = JsonSerializer.Deserialize<ParkingGarage>(json);
 
                 if (loaded == null || loaded.Size <= 0)
@@ -59,12 +69,14 @@ namespace Prague_Park_v2.Models
                     var spot = loaded.Garage[i];
                     spot.SpotNumber = i + 1;
 
+                    // Recompute AvailableSize based on parked vehicles
                     var parkedTotal = (spot.ParkedVehicles ?? new List<Vehicle>()).Sum(v => v?.Size ?? 0);
                     // if Size is invalid (e.g. zero), fall back to a sensible default (4)
                     if (spot.Size <= 0)
                     {
                         spot.Size = 4;
                     }
+                    // Update AvailableSize
                     spot.AvailableSize = Math.Max(0, spot.Size - parkedTotal);
                 }
 
@@ -98,6 +110,7 @@ namespace Prague_Park_v2.Models
             }
         }
 
+        // try to park vehicle, return spot number if successful
         public bool TryParkVehicle(Vehicle vehicle, out int spotNumber)
         {
             spotNumber = -1;

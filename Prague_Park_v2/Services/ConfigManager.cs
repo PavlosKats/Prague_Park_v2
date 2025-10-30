@@ -20,10 +20,10 @@ namespace Prague_Park_v2.Services
                 {
                     GarageSize = 100,
                     VehicleTypes = new List<VehicleTypeConfig>
-                   {
-                       new VehicleTypeConfig { Type = "Car", Size = 4, PricePerHour = 100 },
-                        new VehicleTypeConfig { Type = "Mc",  Size = 2, PricePerHour = 50  }
-                   },
+                        {
+                            new VehicleTypeConfig { Type = "Car", Size = 4, PricePerHour = 100 },
+                            new VehicleTypeConfig { Type = "Mc",  Size = 2, PricePerHour = 50  }
+                        },
                     ParkingSpot = new ParkingSpotConfig { Size = 4, Height = 2 }
                 };
                 try

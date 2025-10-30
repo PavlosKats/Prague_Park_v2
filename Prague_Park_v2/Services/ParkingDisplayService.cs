@@ -64,7 +64,13 @@ namespace Prague_Park_v2.Services
                 table.AddRow(row.ToArray());
             }
             AnsiConsole.Write(table);
+
+            // Calculate available spots (spots with at least one free size unit)
+            int availableSpots = garage.Garage.Count(s => s.AvailableSize > 0);
+
             AnsiConsole.MarkupLine("[green]■[/] = Free spot, [blue]LicensePlate[/] = Car, [yellow]LicensePlate[/] = Mc, [red]LicensePlate[/] = Other");
+            AnsiConsole.MarkupLine($"[bold yellow]Available parking spots:[/] [green]{availableSpots}[/] out of [blue]{totalSpots}[/]");
+
 
         }
     }

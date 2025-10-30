@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace Prague_Park_v2.Models
 {
+    /// <summary>
+    /// Represents a parking spot that can accommodate vehicles based on size and height constraints.
+    /// </summary>
+    /// <remarks>A parking spot tracks its size, height, and the vehicles currently parked in it.  It provides
+    /// functionality to add or remove vehicles, check if a vehicle can fit,  and verify if a vehicle with a specific
+    /// license plate is parked in the spot.</remarks>
     public class ParkingSpot
     {
         public int Size { get; set; }
