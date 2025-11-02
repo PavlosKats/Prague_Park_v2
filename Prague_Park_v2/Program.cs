@@ -72,14 +72,17 @@ namespace Prague_Park_v2
                 {
                     case "1":
                         ParkingService.ParkVehicle(garage, factory);
+                        garage.SaveToFile(dataPath);
                         break;
 
                     case "2":
                         ParkingService.RemoveVehicle(garage);
+                        garage.SaveToFile(dataPath);
                         break;
 
                     case "3":
                         MoveVehicleService.MoveVehicle(garage);
+                        garage.SaveToFile(dataPath);
                         break;
 
                     case "4":
