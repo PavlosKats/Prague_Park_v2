@@ -4,6 +4,7 @@ using System;
 
 namespace Prague_Park_v2.Utils
 {
+    // Service to display application configuration in a formatted table
     public static class ConfigDisplayService
     {
         public static void PrintConfig(AppConfig config)

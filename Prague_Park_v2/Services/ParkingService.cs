@@ -82,7 +82,7 @@ namespace Prague_Park_v2.Services
                 $"[green]License Plate:[/] [white]{info.LicensePlate}[/]\n" +
                 $"[blue]Total Duration:[/] [white]{info.Hours}[/] hours and [white]{info.Minutes}[/] minute(s)\n" +
                 freeMessage +
-                $"[yellow]Total Price:[/] [white]{info.TotalPrice}[/] currency units"
+                $"[yellow]Total Price:[/] [white]{info.TotalPrice}[/] CZK"
             )
             .Header("[bold green]Checkout Summary[/]", Justify.Center)
             .Border(BoxBorder.Rounded)

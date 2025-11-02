@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Prague_Park_v2.Utils
 {
+    // Utility class to optimise parking of Mc vehicles
     public class McOptimiser
     {
         public static void Optimise(ParkingGarage garage)
