@@ -1,5 +1,6 @@
-﻿using Prague_Park_v2.Models;
-using System.Linq;
+﻿using Prague_Park_v2.Core.Models;
+using Prague_Park_v2.Core.Services;
+using Spectre.Console;
 
 namespace Prague_Park_v2.Services
 {
@@ -35,7 +36,6 @@ namespace Prague_Park_v2.Services
                 {
                     Console.WriteLine($"Vehicle {vehicle.LicensePlate} parked at spot {spot}.");
                 }
-
                 else
                 {
                     Console.WriteLine("This license plate is already parked or no space available for this vehicle.");
@@ -59,15 +59,37 @@ namespace Prague_Park_v2.Services
                 return;
             }
 
-            if(garage.TryRemoveVehicle(plate, out var removed))
+            if(garage.TryRemoveVehicle(plate, out var removed) && removed != null)
             {
-                Console.WriteLine($"Removed {removed?.LicensePlate}. Checkout info: ");
-                removed?.CheckoutVehicle(DateTime.Now);
+                Console.WriteLine($"Removed {removed.LicensePlate}. Checkout info: ");
+                
+                // Calculate checkout and display with Spectre.Console
+                var checkoutInfo = removed.CalculateCheckout(DateTime.Now);
+                DisplayCheckout(checkoutInfo);
             }
             else
             {
                 Console.WriteLine("Vehicle not found.");
             }
+        }
+
+        private static void DisplayCheckout(CheckoutInfo info)
+        {
+            string freeMessage = info.IsFree ? "[green]Parking is free![/] (Duration under 10 minutes)\n" : "";
+            
+            var panel = new Panel(
+                $"[bold yellow]Vehicle Checkout[/]\n" +
+                $"[green]License Plate:[/] [white]{info.LicensePlate}[/]\n" +
+                $"[blue]Total Duration:[/] [white]{info.Hours}[/] hours and [white]{info.Minutes}[/] minute(s)\n" +
+                freeMessage +
+                $"[yellow]Total Price:[/] [white]{info.TotalPrice}[/] currency units"
+            )
+            .Header("[bold green]Checkout Summary[/]", Justify.Center)
+            .Border(BoxBorder.Rounded)
+            .Padding(1, 1)
+            .Expand();
+
+            AnsiConsole.Write(panel);
         }
     }
 }

@@ -1,11 +1,9 @@
 ﻿
-using System;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
-using Prague_Park_v2.Models;
 
-namespace Prague_Park_v2.Services
+using System.Text.Json;
+using Prague_Park_v2.Core.Models;
+
+namespace Prague_Park_v2.Core.Services
 {
     public static class ConfigManager
     {

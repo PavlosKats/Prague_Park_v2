@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prague_Park_v2", "Prague_Pa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prague_Park_v2.Tests", "Prague_Park_v2.Tests\Prague_Park_v2.Tests.csproj", "{6C45BFFD-32F9-48AD-A5A1-43FCB3AB211A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prague_Park_v2.Core", "Prague_Park_v2.Core\Prague_Park_v2.Core.csproj", "{571338BF-1381-4A3F-B149-715B56FD609D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6C45BFFD-32F9-48AD-A5A1-43FCB3AB211A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C45BFFD-32F9-48AD-A5A1-43FCB3AB211A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C45BFFD-32F9-48AD-A5A1-43FCB3AB211A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{571338BF-1381-4A3F-B149-715B56FD609D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{571338BF-1381-4A3F-B149-715B56FD609D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{571338BF-1381-4A3F-B149-715B56FD609D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{571338BF-1381-4A3F-B149-715B56FD609D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

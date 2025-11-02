@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Prague_Park_v2.Models
+namespace Prague_Park_v2.Core.Models
 {
     public class Mc: Vehicle
     {

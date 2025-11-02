@@ -1,5 +1,5 @@
-﻿using Prague_Park_v2.Models;
-using Prague_Park_v2.Services;
+﻿using Prague_Park_v2.Core.Models;
+using Prague_Park_v2.Core.Services;
 
 namespace Prague_Park_v2.Tests
 

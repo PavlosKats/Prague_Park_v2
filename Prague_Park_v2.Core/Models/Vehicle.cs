@@ -1,7 +1,6 @@
-﻿using Spectre.Console;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace Prague_Park_v2.Models
+namespace Prague_Park_v2.Core.Models
 {
     public class Vehicle
     {
@@ -37,7 +36,7 @@ namespace Prague_Park_v2.Models
         }
 
         // Calculate parking duration and price upon checkout
-        public void CheckoutVehicle(DateTime departureTime)
+        public CheckoutInfo CalculateCheckout(DateTime departureTime)
         {
             TimeSpan duration = departureTime - ArrivalTime;
             int totalMinutes = (int)duration.TotalMinutes;
@@ -46,13 +45,13 @@ namespace Prague_Park_v2.Models
 
             double totalHours;
             double totalPrice;
-            string freeMessage = "";
+            bool isFree = false;
 
             if (totalMinutes <= 10)
             {
                 totalHours = 0;
                 totalPrice = 0;
-                freeMessage = "[green]Parking is free![/] (Duration under 10 minutes)\n";
+                isFree = true;
             }
             else
             {
@@ -62,19 +61,23 @@ namespace Prague_Park_v2.Models
                 totalPrice = totalHours * PricePerHour;
             }
 
-            var panel = new Panel(
-                $"[bold yellow]Vehicle Checkout[/]\n" +
-                $"[green]License Plate:[/] [white]{LicensePlate}[/]\n" +
-                $"[blue]Total Duration:[/] [white]{hours}[/] hours and [white]{minutes}[/] minute(s)\n" +
-                freeMessage +
-                $"[yellow]Total Price:[/] [white]{totalPrice}[/] currency units"
-            )
-            .Header("[bold green]Checkout Summary[/]", Justify.Center)
-            .Border(BoxBorder.Rounded)
-            .Padding(1, 1)
-            .Expand();
-
-            AnsiConsole.Write(panel);
+            return new CheckoutInfo
+            {
+                LicensePlate = LicensePlate,
+                Hours = hours,
+                Minutes = minutes,
+                TotalPrice = totalPrice,
+                IsFree = isFree
+            };
         }
+    }
+
+    public class CheckoutInfo
+    {
+        public string? LicensePlate { get; set; }
+        public int Hours { get; set; }
+        public int Minutes { get; set; }
+        public double TotalPrice { get; set; }
+        public bool IsFree { get; set; }
     }
 }

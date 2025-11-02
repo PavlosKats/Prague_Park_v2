@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+﻿
 using System.Text.Json;
 
-namespace Prague_Park_v2.Models
+namespace Prague_Park_v2.Core.Models
 {
     /// <summary>
     /// The ParkingGarage class represents a parking garage containing multiple parking spots.

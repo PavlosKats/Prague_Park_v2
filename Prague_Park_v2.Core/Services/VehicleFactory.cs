@@ -1,11 +1,7 @@
-﻿using Prague_Park_v2.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Prague_Park_v2.Core.Models;
 
-namespace Prague_Park_v2.Services
+
+namespace Prague_Park_v2.Core.Services
 {
     /// <summary>
     /// Provides functionality to create vehicle instances based on a specified type.

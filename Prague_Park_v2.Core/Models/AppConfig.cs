@@ -1,6 +1,6 @@
 ﻿
 
-namespace Prague_Park_v2.Models
+namespace Prague_Park_v2.Core.Models
 {
     /// <summary>
     /// Represents the application configuration settings, typically deserialized from an appconfig.json file.

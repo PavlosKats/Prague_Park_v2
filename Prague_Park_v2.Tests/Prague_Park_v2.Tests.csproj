@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Prague_Park_v2.Core\Prague_Park_v2.Core.csproj" />
     <ProjectReference Include="..\Prague_Park_v2\Prague_Park_v2.csproj" />
   </ItemGroup>
 

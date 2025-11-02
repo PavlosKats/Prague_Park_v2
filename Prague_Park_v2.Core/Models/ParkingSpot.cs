@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Prague_Park_v2.Models
+﻿
+namespace Prague_Park_v2.Core.Models
 {
     /// <summary>
     /// Represents a parking spot that can accommodate vehicles based on size and height constraints.

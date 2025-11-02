@@ -24,4 +24,8 @@
     <PackageReference Include="Spectre.Console" Version="0.52.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Prague_Park_v2.Core\Prague_Park_v2.Core.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-﻿using Prague_Park_v2.Models;
+﻿using Prague_Park_v2.Core.Models;
 using Spectre.Console;
 using System;
 
